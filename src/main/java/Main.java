@@ -2,6 +2,8 @@ import java.io.File;
 import java.util.Arrays;
 
 public class Main {
+
+    private static final int PORT = 8989;
     public static void main(String[] args) throws Exception {
         BooleanSearchEngine engine = new BooleanSearchEngine(new File("pdfs"));
         System.out.println(engine.search("бизнес"));
