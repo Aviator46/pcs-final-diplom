@@ -28,6 +28,10 @@ public class PageEntry implements Comparable<PageEntry> {
 
     @Override
     public String toString() {
-        return pdfName + ", на странице " + page + " нужное слово встретилось " + count + " раз";
+        return "{" +
+                "pdf = '" + pdfName + '\'' +
+                ", page = " + page +
+                ", count = '" + count + '\'' +
+                '}';
     }
 }

@@ -49,12 +49,11 @@ public class BooleanSearchEngine implements SearchEngine {
     @Override
     public List<PageEntry> search(String word) {
         // тут реализуйте поиск по слову
-        for (Map.Entry<String, List<PageEntry>> map : wordMap.entrySet()) {
-            if (map.getKey().equals(word.toLowerCase())){
-                List<PageEntry> result = map.getValue();
-                Collections.sort(result);
-                return result;
-            }
+        word = word.toLowerCase();
+        if (wordMap.containsKey(word)) {
+            List<PageEntry> result = wordMap.get(word);
+            Collections.sort(result);
+            return result;
         }
         return Collections.emptyList();
     }

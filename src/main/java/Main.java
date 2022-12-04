@@ -1,11 +1,9 @@
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import org.json.simple.JSONArray;
 
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.List;
 
 public class Main {
 
@@ -22,14 +20,9 @@ public class Main {
                         PrintWriter writer = new PrintWriter(socket.getOutputStream())
                 ) {
                     String word = bufferedReader.readLine();
-                    List<PageEntry> result = engine.search(word);
-                    JSONArray jsonArray = new JSONArray();
-                    GsonBuilder gsonBuilder = new GsonBuilder();
-                    Gson gson = gsonBuilder.create();
-                    for (PageEntry pageEntry : result) {
-                        jsonArray.add(gson.toJson(pageEntry));
-                    }
-                    writer.println(jsonArray);
+                    GsonBuilder builder = new GsonBuilder();
+                    Gson gson = builder.create();
+                    writer.println(gson.toJson(engine.search(word)));
                 } catch (IOException e) {
                     System.out.println("Не могу запустить сервер");
                     e.printStackTrace();

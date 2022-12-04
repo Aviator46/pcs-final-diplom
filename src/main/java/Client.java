@@ -1,13 +1,13 @@
-import org.json.simple.JSONArray;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.net.UnknownHostException;
 
 public class Client {
 
@@ -17,19 +17,22 @@ public class Client {
     public static void main(String[] args) {
 
         try (Socket clientSocket = new Socket(HOST, PORT);
-             PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
+             PrintWriter writer = new PrintWriter(clientSocket.getOutputStream(), true);
              BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()))
-        ){
-            out.println("бизнес");
-            JSONParser jsonParser = new JSONParser();
-            JSONArray jsonObject = (JSONArray) jsonParser.parse(bufferedReader.readLine());
-            System.out.println(jsonObject);
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
+        ) {
+            writer.println("бизнес");
+            System.out.println(print(bufferedReader.readLine()));
         } catch (IOException e) {
             e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace();
         }
+    }
+
+    private static String print(String json) {
+        Gson gson = new GsonBuilder()
+                .setPrettyPrinting()
+                .create();
+        JsonParser parser = new JsonParser();
+        JsonElement element = parser.parse(json);
+        return gson.toJson(element);
     }
 }
